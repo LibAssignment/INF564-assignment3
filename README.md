@@ -9,7 +9,7 @@ opam install tuareg merlin menhir
 ```
 (and only the last line if you have already installed `opam`).
 
-We provide you with the basic structure (in the form of a set of Caml files and a Makefile) that you can retrieve here: [mini-turtle.tar.gz](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/mini-turtle.tar.gz). Once this archive is uncompressed with `tar zxvf mini-turtle.tar.gz`, you get a `mini-turtle/` directory containing the following files:
+We provide you with the basic structure (in the form of a set of Caml files and a Makefile) that you can retrieve here: <s>[mini-turtle.tar.gz](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/mini-turtle.tar.gz). Once this archive is uncompressed with `tar zxvf mini-turtle.tar.gz`</s> run `git clone https://github.com/LibAssignment/INF564-assignment3 mini-turtle`, you get a `mini-turtle/` directory containing the following files:
 
 filename    | description
 ------------|---------------------------------------
@@ -106,17 +106,17 @@ repeat 4 {
 Finally, add the syntax of the function declarations and the call of a function in the instructions.
 We can test with the files provided in the sub-directory `tests`, namely:
 
-* [hilbert.logo](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/mini-turtle/tests/hilbert.logo)
-* [poly.logo](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/mini-turtle/tests/poly.logo)
-* [von_koch.logo](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/mini-turtle/tests/von_koch.logo)
-* [zigzag.logo](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/mini-turtle/tests/zigzag.logo)
+* hilbert.logo
+* poly.logo
+* von_koch.logo
+* zigzag.logo
 
 The `make tests` command runs `mini-turtle` on each of these files. The following four images must be obtained (by pressing a key after each image):
 
-![](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/hilbert.png)
-![](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/poly.png)
-![](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/von_koch.png)
-![](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/zigzag.png)
+![](tests/hilbert.png)
+![](tests/poly.png)
+![](tests/von_koch.png)
+![](tests/zigzag.png)
 
 ## Solution
 [lexer.mll](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/corrige/lexer.mll.html) / [parser.mly](https://www.enseignement.polytechnique.fr/informatique/INF564/td/3-ocaml/corrige/parser.mly.html)

@@ -1,0 +1,11 @@
+*.cmi
+*.cmo
+*.annot
+*.automaton
+mini-turtle
+
+parser.ml
+parser.mli
+lexer.ml
+
+out
