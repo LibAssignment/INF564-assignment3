@@ -1,5 +1,5 @@
 
-(* Le flocon de Von Koch *)
+(* The snowflake of Von Koch *)
 
 def von_koch(n, d) {
   if n {

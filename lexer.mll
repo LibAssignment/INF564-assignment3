@@ -1,17 +1,17 @@
 
-(* Analyseur lexical pour mini-Turtle *)
+(* Lexical Analyzer for Mini Turtle *)
 
 {
   open Lexing
   open Parser
 
-  (* exception à lever pour signaler une erreur lexicale *)
+  (* exception to be raised to report a lexical error *)
   exception Lexing_error of string
 
-  (* note : penser à appeler la fonction Lexing.new_line
-     à chaque retour chariot (caractère '\n') *)
+  (* note: think about calling the function Lexing.new_line
+     with each carriage return ('\n' character) *)
 
 }
 
 rule token = parse
-  | _ { assert false (* À COMPLÉTER *) }
+  | _ { assert false (* TO COMPLETE *) }

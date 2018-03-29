@@ -1,15 +1,15 @@
 
-(* La tortue logo *)
+(* The turtle logo *)
 
 val pen_up: unit -> unit
 val pen_down: unit -> unit
 
 val forward: int -> unit
-  (** distance en pixels *)
+  (** distance in pixels *)
 
 val turn_left: int -> unit
 val turn_right: int -> unit
-  (** angles en degrés *)
+  (** angles in degrees *)
 
 type color
 val black: color

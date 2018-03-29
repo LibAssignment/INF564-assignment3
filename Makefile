@@ -38,6 +38,3 @@ parser.ml: ast.cmi
 	ocamldep *.ml *.mli > .depend
 
 include .depend
-
-
-

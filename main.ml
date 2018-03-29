@@ -1,78 +1,78 @@
 
-(* Fichier principal de l'interprète mini-Turtle *)
+(* Main file of the mini-Turtle interpreter *)
 
 open Format
 open Lexing
 
-(* Option de compilation, pour s'arrêter à l'issue du parser *)
+(* Compilation option, to stop at the end of the parser *)
 let parse_only = ref false
 
-(* Noms des fichiers source et cible *)
+(* Names of source and target files *)
 let ifile = ref ""
 let ofile = ref ""
 
 let set_file f s = f := s
 
-(* Les options du compilateur que l'on affiche avec --help *)
+(* The compiler options that are displayed with --help *)
 let options =
   ["--parse-only", Arg.Set parse_only,
-   "  Pour ne faire uniquement que la phase d'analyse syntaxique"]
+   "  To do only the parsing phase"]
 
 let usage = "usage: mini-turtle [option] file.logo"
 
-(* localise une erreur en indiquant la ligne et la colonne *)
+(* locate an error by indicating the row and the column *)
 let localisation pos =
   let l = pos.pos_lnum in
   let c = pos.pos_cnum - pos.pos_bol + 1 in
   eprintf "File \"%s\", line %d, characters %d-%d:\n" !ifile l (c-1) c
 
 let () =
-  (* Parsing de la ligne de commande *)
+  (* Parsing the command line *)
   Arg.parse options (set_file ifile) usage;
 
-  (* On vérifie que le nom du fichier source a bien été indiqué *)
-  if !ifile="" then begin eprintf "Aucun fichier à compiler\n@?"; exit 1 end;
+  (* We check that the name of the source file has been indicated *)
+  if !ifile="" then begin eprintf "No files to compile\n@?"; exit 1 end;
 
-  (* Ce fichier doit avoir l'extension .logo *)
+  (* This file must have the extension .logo *)
   if not (Filename.check_suffix !ifile ".logo") then begin
-    eprintf "Le fichier d'entrée doit avoir l'extension .logo\n@?";
+    eprintf "The input file must have the extension .logo\n@?";
     Arg.usage options usage;
     exit 1
   end;
 
-  (* Ouverture du fichier source en lecture *)
+  (* Opening the source file for reading *)
   let f = open_in !ifile in
 
-  (* Création d'un tampon d'analyse lexicale *)
+  (* Creating a lexical analysis buffer *)
   let buf = Lexing.from_channel f in
 
   try
-    (* Parsing: la fonction  Parser.prog transforme le tampon lexical en un
-       arbre de syntaxe abstraite si aucune erreur (lexicale ou syntaxique)
-       n'est détectée.
-       La fonction Lexer.token est utilisée par Parser.prog pour obtenir
-       le prochain token. *)
+    (* Parsing: The Parser.prog function transforms the lexical buffer into a
+       abstract syntax tree if no error (lexical or syntactical)
+       is detected.
+       The Lexer.token function is used by Parser.prog to get
+       the next token. *)
     let p = Parser.prog Lexer.token buf in
     close_in f;
 
-    (* On s'arrête ici si on ne veut faire que le parsing *)
+    (* We stop here if we only want to do parsing *)
     if !parse_only then exit 0;
 
     Interp.prog p
   with
     | Lexer.Lexing_error c ->
-	(* Erreur lexicale. On récupère sa position absolue et
-	   on la convertit en numéro de ligne *)
-	localisation (Lexing.lexeme_start_p buf);
-	eprintf "Erreur lexicale: %s@." c;
-	exit 1
+        (* Lexical error. We recover its absolute position and
+           we convert it to a line number *)
+        localisation (Lexing.lexeme_start_p buf);
+        eprintf "Lexical error: %s@." c;
+        exit 1
     | Parser.Error ->
-	(* Erreur syntaxique. On récupère sa position absolue et on la
-	   convertit en numéro de ligne *)
-	localisation (Lexing.lexeme_start_p buf);
-	eprintf "Erreur syntaxique@.";
-	exit 1
+        (* Syntax error. We recover its absolute position and we
+           converts to line number *)
+        localisation (Lexing.lexeme_start_p buf);
+        eprintf "Syntax error@.";
+        exit 1
     | Interp.Error s->
-	(* Erreur pendant l'interprétation *)
-	eprintf "Erreur : %s@." s;
-	exit 1
+        (* Error during interpretation *)
+        eprintf "Error : %s@." s;
+        exit 1

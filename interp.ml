@@ -1,5 +1,5 @@
 
-(* interpréteur de mini-Turtle *)
+(* mini-turtle interpreter *)
 
 open Ast
 
@@ -9,13 +9,13 @@ let unbound_var s = raise (Error ("unbound variable " ^ s))
 let unbound_procedure f = raise (Error ("unbound procedure " ^ f))
 let bad_arity x = raise (Error ("bad arity for " ^ x))
 
-(* table des variables globales *)
+(* global variables table *)
 let globals = Hashtbl.create 17
 
-(* structure de données pour les variables locales *)
+(* data structure for local variables *)
 module Smap = Map.Make(String)
 
-(* expressions arithmétiques *)
+(* arithmetic expressions *)
 
 let binop = function
   | Add -> (+)
@@ -30,7 +30,7 @@ let rec expr env = function
   | Evar x -> unbound_var x
   | Ebinop (op, e1, e2) -> binop op (expr env e1) (expr env e2)
 
-(* table des procédures *)
+(* table of procedures *)
 let procs = Hashtbl.create 17
 
 (* instructions *)
@@ -69,8 +69,3 @@ let prog p =
   stmt Smap.empty p.main;
   ignore (Graphics.read_key ());
   Graphics.close_graph ()
-
-
-
-
-

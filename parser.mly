@@ -1,33 +1,31 @@
 
-/* Analyseur syntaxique pour mini-Turtle */
+/* Syntax Analyzer for Mini Turtle */
 
 %{
   open Ast
 
 %}
 
-/* Déclaration des tokens */
+/* Declaration of tokens */
 
 %token EOF
-/* À COMPLÉTER */
+/* TO COMPLETE */
 
-/* Priorités et associativités des tokens */
+/* Priorities and associativities of tokens */
 
-/* À COMPLÉTER */
+/* TO COMPLETE */
 
-/* Point d'entrée de la grammaire */
+/* Point of entry of grammar */
 %start prog
 
-/* Type des valeurs renvoyées par l'analyseur syntaxique */
+/* Type of values returned by the parser */
 %type <Ast.program> prog
 
 %%
 
-/* Règles de grammaire */
+/* Grammar rules */
 
 prog:
-  /* À COMPLÉTER */ EOF
-    { { defs = []; main = Sblock [] } (* À MODIFIER *) }
+  /* TO COMPLETE */ EOF
+    { { defs = []; main = Sblock [] } (* TO MODIFY *) }
 ;
-
-
