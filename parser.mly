@@ -8,7 +8,9 @@
 
 /* Declaration of tokens */
 
+%token <int> INT
 %token EOF NEWLINE
+%token FORWARD
 /* TO COMPLETE */
 
 /* Priorities and associativities of tokens */
@@ -27,6 +29,14 @@
 
 prog:
 /* TO COMPLETE */
-  NEWLINE* EOF
-    { { defs = []; main = Sblock [] } (* TO MODIFY *) }
+  NEWLINE* b = list(stmt) EOF
+    { { defs = []; main = Sblock b } (* TO MODIFY *) }
 ;
+
+stmt:
+  FORWARD e = expr NEWLINE
+    { Sforward e }
+
+expr:
+  c = INT
+    { Econst c }

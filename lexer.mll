@@ -13,12 +13,20 @@ exception Lexing_error of string
 
 }
 
+let letter = ['a'-'z' 'A'-'Z']
+let digit = ['0'-'9']
+let ident = letter (letter | digit | '_')*
+let integer = digit+
 let comment_inline = "//" [^'\n']*
 
 rule token = parse
   | '\n'      { new_line lexbuf; NEWLINE }
   | ' ' | comment_inline
               { token lexbuf }
+  | "forward" { FORWARD }
+  | integer as s
+              { try INT (int_of_string s)
+                with _ -> raise (Lexing_error ("constant too large: " ^ s)) }
   | "(*"      { comment lexbuf }
   | eof       { EOF }
   | _ { assert false (* TO COMPLETE *) }
