@@ -1,11 +1,14 @@
 *.cmi
 *.cmo
+*.cmx
 *.annot
 *.automaton
+*.o
 mini-turtle
 
 parser.ml
 parser.mli
 lexer.ml
 
-out
+out.*
+.DS_Store

@@ -6,11 +6,11 @@ module Graphics = struct
   let cur_color = ref Gg.Color.black
   let path = ref P.empty
   let img = ref (I.const Color.void)
-  let graph_size = ref (Size2.v 1. 1.)
+  let view_size = ref Size2.unit
   let v = ref P2.o
   let line_width = ref 1.
 
-  let open_graph w h = graph_size := Size2.v w h
+  let open_graph w h = view_size := Size2.v w h
 
   let moveto x y =
     v := P2.v x y;
@@ -36,14 +36,13 @@ module Graphics = struct
     flush_path ();
     line_width := d
 
-  let dpi300 = let s = 300. /. 0.0254 in Size2.v s s
-
   let svg_of_usquare i =
-    let size = !graph_size in
-    let view = Box2.unit in
+    let size = !view_size in
+    let view = Box2.v P2.o !view_size in
+    let dpi30 = let s = 30. /. 0.0254 in Size2.v s s in
     try
       let oc = open_out "out.png" in
-      let r = Vgr.create (Vgr_cairo.stored_target (`Png dpi300)) (`Channel oc) in
+      let r = Vgr.create (Vgr_cairo.stored_target (`Png dpi30)) (`Channel oc) in
       try
         ignore (Vgr.render r (`Image (size, view, i)));
         ignore (Vgr.render r `End);
@@ -51,7 +50,8 @@ module Graphics = struct
       with e -> close_out oc; raise e
     with Sys_error e -> prerr_endline e
 
-  let close_graph () = svg_of_usquare !img
+  let close_graph () =
+    flush_path (); svg_of_usquare !img
 end
 
 type color = Gg.color
@@ -60,6 +60,7 @@ let white = Gg.Color.white
 let red = Gg.Color.red
 let green = Gg.Color.green
 let blue = Gg.Color.blue
+let set_color = Graphics.set_color
 
 module A = struct
   type t = float

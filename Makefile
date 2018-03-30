@@ -1,7 +1,8 @@
 CMX=turtle.cmx lexer.cmx parser.cmx interp.cmx main.cmx
 GENERATED = lexer.ml parser.ml parser.mli
 BIN=mini-turtle
-FLAGS=
+FLAGS=-package gg,vg,vg.cairo -linkpkg
+OCAMLOPT=ocamlfind ocamlopt
 
 all: $(BIN)
 	./$(BIN) test.logo
@@ -12,15 +13,15 @@ tests: $(BIN)
 	for f in tests/*.logo; do ./$(BIN) $$f; done
 
 $(BIN): $(CMX)
-	ocamlopt $(FLAGS) -o $(BIN) graphics.cmxa $(CMX)
+	$(OCAMLOPT) $(FLAGS) -o $(BIN) $(CMX)
 
 .SUFFIXES: .mli .ml .cmi .cmx .mll .mly
 
 .mli.cmi:
-	ocamlopt $(FLAGS) -c  $<
+	$(OCAMLOPT) $(FLAGS) -c $<
 
 .ml.cmx:
-	ocamlopt $(FLAGS) -c  $<
+	$(OCAMLOPT) $(FLAGS) -c $<
 
 .mll.ml:
 	ocamllex $<
