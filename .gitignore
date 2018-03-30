@@ -5,6 +5,7 @@
 *.automaton
 *.o
 mini-turtle
+test_vg
 
 parser.ml
 parser.mli

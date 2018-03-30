@@ -15,6 +15,12 @@ tests: $(BIN)
 $(BIN): $(CMX)
 	$(OCAMLOPT) $(FLAGS) -o $(BIN) $(CMX)
 
+test_vg: turtle.cmx test.cmx
+	$(OCAMLOPT) $(FLAGS) -o $@ $^
+
+out.png: test_vg
+	./test_vg > out.png
+
 .SUFFIXES: .mli .ml .cmi .cmx .mll .mly
 
 .mli.cmi:
@@ -30,7 +36,7 @@ $(BIN): $(CMX)
 	menhir --infer -v $<
 
 clean:
-	rm -f *.cm[ix] *.o *~ $(BIN) $(GENERATED) parser.automaton *.png
+	rm -f *.cm[ix] *.o *~ $(BIN) $(GENERATED) parser.automaton *.png test_vg
 
 parser.ml: ast.cmi
 

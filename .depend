@@ -8,6 +8,8 @@ main.cmx : parser.cmx lexer.cmx interp.cmx
 parser.cmo : ast.cmi parser.cmi
 parser.cmx : ast.cmi parser.cmi
 parser.cmi : ast.cmi
+test.cmo : turtle.cmi
+test.cmx : turtle.cmx
 turtle.cmo : turtle.cmi
 turtle.cmx : turtle.cmi
 turtle.cmi :
