@@ -1,4 +1,6 @@
 
-// start with a file containing only comments
+// start with a file containing only comments (*
+(*)
+(* hello
 
-// then complete this file as tests progress
+// then complete this file as tests progress *)

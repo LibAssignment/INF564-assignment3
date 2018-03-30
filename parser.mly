@@ -8,7 +8,7 @@
 
 /* Declaration of tokens */
 
-%token EOF
+%token EOF NEWLINE
 /* TO COMPLETE */
 
 /* Priorities and associativities of tokens */
@@ -26,6 +26,7 @@
 /* Grammar rules */
 
 prog:
-  /* TO COMPLETE */ EOF
+/* TO COMPLETE */
+  NEWLINE* EOF
     { { defs = []; main = Sblock [] } (* TO MODIFY *) }
 ;
