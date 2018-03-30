@@ -19,3 +19,5 @@ val green: color
 val blue : color
 
 val set_color: color -> unit
+
+val close: unit -> unit

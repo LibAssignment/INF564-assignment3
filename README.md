@@ -5,7 +5,7 @@ It is necessary to install the `menhir` tool for this TD. The easiest way is to 
 ```shell
 opam init
 eval `opam config`
-opam install tuareg merlin menhir
+opam install cairo2 vg merlin menhir
 ```
 (and only the last line if you have already installed `opam`).
 

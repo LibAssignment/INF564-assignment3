@@ -67,5 +67,4 @@ let rec stmt env = function
 let prog p =
   List.iter (fun p -> Hashtbl.add procs p.name p) p.defs;
   stmt Smap.empty p.main;
-  ignore (Graphics.read_key ());
-  Graphics.close_graph ()
+  Turtle.close ()

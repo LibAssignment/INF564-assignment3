@@ -1,13 +1,65 @@
 
-open Graphics
+open Gg
+open Vg
 
-type color = Graphics.color
-let black = Graphics.black
-let white = Graphics.white
-let red = Graphics.red
-let green = Graphics.green
-let blue = Graphics.blue
-let set_color = Graphics.set_color
+module Graphics = struct
+  let cur_color = ref Gg.Color.black
+  let path = ref P.empty
+  let img = ref (I.const Color.void)
+  let graph_size = ref (Size2.v 1. 1.)
+  let v = ref P2.o
+  let line_width = ref 1.
+
+  let open_graph w h = graph_size := Size2.v w h
+
+  let moveto x y =
+    v := P2.v x y;
+    path := !path >> P.sub !v
+
+  let lineto x y =
+    v := P2.v x y;
+    path := !path >> P.line !v
+
+  let flush_path () =
+    let area = `O ({P.o with width = !line_width}) in
+    let path_img = I.const !cur_color >> I.cut ~area !path in
+    begin
+      img := !img >> I.blend path_img;
+      path := P.empty >> P.sub !v
+    end
+
+  let set_color c =
+    flush_path ();
+    cur_color := c
+
+  let set_line_width d =
+    flush_path ();
+    line_width := d
+
+  let dpi300 = let s = 300. /. 0.0254 in Size2.v s s
+
+  let svg_of_usquare i =
+    let size = !graph_size in
+    let view = Box2.unit in
+    try
+      let oc = open_out "out.png" in
+      let r = Vgr.create (Vgr_cairo.stored_target (`Png dpi300)) (`Channel oc) in
+      try
+        ignore (Vgr.render r (`Image (size, view, i)));
+        ignore (Vgr.render r `End);
+        close_out oc
+      with e -> close_out oc; raise e
+    with Sys_error e -> prerr_endline e
+
+  let close_graph () = svg_of_usquare !img
+end
+
+type color = Gg.color
+let black = Gg.Color.black
+let white = Gg.Color.white
+let red = Gg.Color.red
+let green = Gg.Color.green
+let blue = Gg.Color.blue
 
 module A = struct
   type t = float
@@ -29,12 +81,13 @@ let turn_right d = turn_left (- d)
 open Graphics
 let tx = ref 400.
 let ty = ref 400.
-let () = open_graph " 800x800"; set_line_width 2;
-  moveto (truncate !tx) (truncate !ty)
+let () = open_graph 800. 800.; set_line_width 2.;
+  moveto !tx !ty
 
 let forward d =
   tx := !tx +. float d *. A.cos !angle;
   ty := !ty +. float d *. A.sin !angle;
-  if !draw then lineto (truncate !tx) (truncate !ty)
-           else moveto (truncate !tx) (truncate !ty)
+  if !draw then lineto !tx !ty
+           else moveto !tx !ty
 
+let close = Graphics.close_graph
