@@ -20,4 +20,5 @@ val blue : color
 
 val set_color: color -> unit
 
-val write: out_channel -> unit
+val open_graph: out_channel -> unit
+val close: unit -> unit

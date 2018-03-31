@@ -6,6 +6,7 @@ open Lexing
 
 (* Compilation option, to stop at the end of the parser *)
 let parse_only = ref false
+let output_filename = ref "out.png"
 
 (* Names of source and target files *)
 let ifile = ref ""
