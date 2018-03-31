@@ -1,13 +1,13 @@
 ast.cmi : turtle.cmi
 interp.cmo : turtle.cmi ast.cmi
 interp.cmx : turtle.cmx ast.cmi
-lexer.cmo : parser.cmi
-lexer.cmx : parser.cmx
+lexer.cmo : turtle.cmi parser.cmi
+lexer.cmx : turtle.cmx parser.cmx
 main.cmo : parser.cmi lexer.cmo interp.cmo
 main.cmx : parser.cmx lexer.cmx interp.cmx
-parser.cmo : ast.cmi parser.cmi
-parser.cmx : ast.cmi parser.cmi
-parser.cmi : ast.cmi
+parser.cmo : turtle.cmi ast.cmi parser.cmi
+parser.cmx : turtle.cmx ast.cmi parser.cmi
+parser.cmi : turtle.cmi ast.cmi
 turtle.cmo : turtle.cmi
 turtle.cmx : turtle.cmi
 turtle.cmi :

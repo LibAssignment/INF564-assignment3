@@ -4,6 +4,13 @@
 (* hello
 
 // then complete this file as tests progress *)
+color red
 forward 100 + 3 * -0
-// newlines
-(* no effect *)
+turnleft 90
+penup
+forward 100
+turnright -90
+pendown
+forward 90
+color green
+forward 10

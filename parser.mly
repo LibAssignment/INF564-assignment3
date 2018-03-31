@@ -2,17 +2,19 @@
 /* Syntax Analyzer for Mini Turtle */
 
 %{
-  open Ast
-
+open Ast
+let minus e = Ebinop (Sub, (Econst 0), e)
 %}
 
 /* Declaration of tokens */
 
 %token <int> INT
+%token <Turtle.color> COLOR
+%token <string> IDENT
 %token LP RP
 %token ADD MINUS MUL DIV
 %token EOF NEWLINE
-%token FORWARD
+%token PENUP PENDOWN TURNLEFT TURNRIGHT FORWARD SETCOLOR
 /* TO COMPLETE */
 
 /* Priorities and associativities of tokens */
@@ -43,8 +45,16 @@ stmt:
     { s }
 
 simple_stmt:
+| PENUP   { Spenup }
+| PENDOWN { Spendown }
+| TURNLEFT e = expr
+    { Sturn e }
+| TURNRIGHT e = expr
+    { Sturn (minus e) }
 | FORWARD e = expr
     { Sforward e }
+| SETCOLOR c = COLOR
+    { Scolor c }
 
 expr:
 | c = INT
@@ -52,7 +62,7 @@ expr:
 | e1 = expr op = binop e2 = expr
     { Ebinop (op, e1, e2) }
 | MINUS e = expr %prec unary_minus
-    { Ebinop (Sub, (Econst 0), e) }
+    { minus e }
 | LP e = expr RP
     { e }
 

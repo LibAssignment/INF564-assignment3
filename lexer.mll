@@ -18,6 +18,18 @@ let binop_of_string = function
   | "/" -> DIV
   | x -> raise (Lexing_error ("Unknown op: " ^ x))
 
+let kwd_or_id = function
+  | "penup" -> PENUP
+  | "pendown" -> PENDOWN
+  | "forward" -> FORWARD
+  | "turnleft" -> TURNLEFT
+  | "turnright" -> TURNRIGHT
+  | "color" -> SETCOLOR
+  | "black" -> COLOR Turtle.black
+  | "red" -> COLOR Turtle.red
+  | "green" -> COLOR Turtle.green
+  | "blue" -> COLOR Turtle.blue
+  | x -> IDENT x
 }
 
 let letter = ['a'-'z' 'A'-'Z']
@@ -32,7 +44,8 @@ rule token = parse
   | ' ' | comment_inline
               { token lexbuf }
   | "(*"      { comment lexbuf }
-  | "forward" { FORWARD }
+  | ident as id
+              { kwd_or_id id }
   | integer as s
               { try INT (int_of_string s)
                 with _ -> raise (Lexing_error ("constant too large: " ^ s)) }
