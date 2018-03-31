@@ -11,12 +11,11 @@ let minus e = Ebinop (Sub, (Econst 0), e)
 %token <int> INT
 %token <Turtle.color> COLOR
 %token <string> IDENT
-%token LP RP LB RB
+%token LP RP LB RB COMMA
 %token ADD MINUS MUL DIV
 %token EOF
-%token IF ELSE REPEAT
+%token IF ELSE DEF REPEAT
 %token PENUP PENDOWN TURNLEFT TURNRIGHT FORWARD SETCOLOR
-/* TO COMPLETE */
 
 /* Priorities and associativities of tokens */
 %nonassoc IF
@@ -36,10 +35,13 @@ let minus e = Ebinop (Sub, (Econst 0), e)
 /* Grammar rules */
 
 prog:
-/* TO COMPLETE */
-  b = list(stmt) EOF
-    { { defs = []; main = Sblock b } (* TO MODIFY *) }
+  d = list(def) b = list(stmt) EOF
+    { { defs = d; main = Sblock b } }
 ;
+
+def:
+  DEF id = IDENT LP args = separated_list(COMMA, IDENT) RP s = stmt
+    { { name = id; formals = args; body = s } }
 
 stmt:
 | s = simple_stmt
@@ -64,6 +66,8 @@ simple_stmt:
     { Sforward e }
 | SETCOLOR c = COLOR
     { Scolor c }
+| id = IDENT LP params = separated_list(COMMA, expr) RP
+    { Scall (id, params) }
 
 expr:
 | c = INT
@@ -74,6 +78,8 @@ expr:
     { minus e }
 | LP e = expr RP
     { e }
+| id = IDENT
+    { Evar id }
 
 %inline binop:
 | ADD   { Add }

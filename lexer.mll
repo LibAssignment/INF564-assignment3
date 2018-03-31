@@ -21,6 +21,7 @@ let binop_of_string = function
 let kwd_or_id = function
   | "if" -> IF
   | "else" -> ELSE
+  | "def" -> DEF
   | "repeat" -> REPEAT
   | "penup" -> PENUP
   | "pendown" -> PENDOWN
@@ -58,6 +59,7 @@ rule token = parse
   | ")"       { RP }
   | "{"       { LB }
   | "}"       { RB }
+  | ","       { COMMA }
   | eof       { EOF }
   | _ { assert false (* TO COMPLETE *) }
 and comment = parse
