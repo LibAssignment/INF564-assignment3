@@ -10,7 +10,7 @@ all: $(BIN)
 .PHONY: tests
 
 tests: $(BIN)
-	for f in tests/*.logo; do ./$(BIN) $$f; done
+	./run-tests
 
 $(BIN): $(CMX)
 	$(OCAMLOPT) $(FLAGS) -o $(BIN) $(CMX)

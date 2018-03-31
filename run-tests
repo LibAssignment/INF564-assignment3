@@ -1,0 +1,22 @@
+#!/bin/bash
+
+score=0
+max=0
+
+echo "Positive tests (files in tests/)"
+
+for f in tests/*.logo; do
+    max=`expr $max + 1`;
+    echo $f
+    expected=tests/good/`basename $f .py`.out
+    rm -f out.png
+    if ./mini-turtle -o out.png $f; then
+      score=`expr $score + 1`;
+    else
+      echo "  FAIL: interpreting $f"
+    fi
+done
+
+echo
+percent=`expr 100 \* $score / $max`;
+echo "Score: $score / $max tests, soit $percent%"
