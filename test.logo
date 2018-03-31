@@ -1,16 +1,9 @@
-
-// start with a file containing only comments (*
-(*)
-(* hello
-
-// then complete this file as tests progress *)
 color red
-forward 100 + 3 * -0
-turnleft 90
-penup
-forward 100
-turnright -90
-pendown
-forward 90
-color green
-forward 10
+if 1 if 0 {color red} else {color green (* should here *)}
+if 0 {}
+else if 1 {
+  repeat 4 {
+    forward 100
+    if 1 turnleft 90
+  }
+}

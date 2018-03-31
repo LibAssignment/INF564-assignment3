@@ -19,6 +19,9 @@ let binop_of_string = function
   | x -> raise (Lexing_error ("Unknown op: " ^ x))
 
 let kwd_or_id = function
+  | "if" -> IF
+  | "else" -> ELSE
+  | "repeat" -> REPEAT
   | "penup" -> PENUP
   | "pendown" -> PENDOWN
   | "forward" -> FORWARD
@@ -40,7 +43,7 @@ let comment_inline = "//" [^'\n']*
 let binop = "+" | "-" | "*" | "/"
 
 rule token = parse
-  | '\n'      { new_line lexbuf; NEWLINE }
+  | '\n'      { new_line lexbuf; token lexbuf }
   | ' ' | comment_inline
               { token lexbuf }
   | "(*"      { comment lexbuf }
@@ -53,6 +56,8 @@ rule token = parse
               { binop_of_string (String.make 1 o) }
   | "("       { LP }
   | ")"       { RP }
+  | "{"       { LB }
+  | "}"       { RB }
   | eof       { EOF }
   | _ { assert false (* TO COMPLETE *) }
 and comment = parse

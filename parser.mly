@@ -11,18 +11,19 @@ let minus e = Ebinop (Sub, (Econst 0), e)
 %token <int> INT
 %token <Turtle.color> COLOR
 %token <string> IDENT
-%token LP RP
+%token LP RP LB RB
 %token ADD MINUS MUL DIV
-%token EOF NEWLINE
+%token EOF
+%token IF ELSE REPEAT
 %token PENUP PENDOWN TURNLEFT TURNRIGHT FORWARD SETCOLOR
 /* TO COMPLETE */
 
 /* Priorities and associativities of tokens */
-
+%nonassoc IF
+%nonassoc ELSE
 %left ADD MINUS
 %left MUL DIV
 %nonassoc unary_minus
-/* TO COMPLETE */
 
 /* Point of entry of grammar */
 %start prog
@@ -36,13 +37,21 @@ let minus e = Ebinop (Sub, (Econst 0), e)
 
 prog:
 /* TO COMPLETE */
-  NEWLINE* b = list(stmt) EOF
+  b = list(stmt) EOF
     { { defs = []; main = Sblock b } (* TO MODIFY *) }
 ;
 
 stmt:
-  s = simple_stmt NEWLINE*
+| s = simple_stmt
     { s }
+| LB b = list(stmt) RB
+    { Sblock b }
+| IF e = expr s1 = stmt
+    { Sif (e, s1, Sblock []) }
+| IF e = expr s1 = stmt ELSE s2 = stmt
+    { Sif (e, s1, s2) }
+| REPEAT e = expr s = stmt
+    { Srepeat (e, s) }
 
 simple_stmt:
 | PENUP   { Spenup }
