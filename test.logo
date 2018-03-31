@@ -4,4 +4,4 @@
 (* hello
 
 // then complete this file as tests progress *)
-forward 100
+forward 100 + 3 * -0
