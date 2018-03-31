@@ -6,6 +6,7 @@ open Lexing
 
 (* Compilation option, to stop at the end of the parser *)
 let parse_only = ref false
+let output_filename = ref "out.png"
 
 (* Names of source and target files *)
 let ifile = ref ""
@@ -16,7 +17,9 @@ let set_file f s = f := s
 (* The compiler options that are displayed with --help *)
 let options =
   ["--parse-only", Arg.Set parse_only,
-   "  To do only the parsing phase"]
+   "  To do only the parsing phase";
+   "-o", Arg.String (fun s -> output_filename:=s),
+   "  Output filename (default " ^ !output_filename ^ ")"]
 
 let usage = "usage: mini-turtle [option] file.logo"
 
@@ -58,7 +61,7 @@ let () =
     (* We stop here if we only want to do parsing *)
     if !parse_only then exit 0;
 
-    Interp.prog p
+    Interp.prog !output_filename p
   with
     | Lexer.Lexing_error c ->
         (* Lexical error. We recover its absolute position and

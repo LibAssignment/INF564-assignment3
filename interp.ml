@@ -64,7 +64,8 @@ let rec stmt env = function
       in
       stmt env' p.body
 
-let prog p =
+let prog fn p =
+  Turtle.open_graph fn;
   List.iter (fun p -> Hashtbl.add procs p.name p) p.defs;
   stmt Smap.empty p.main;
   Turtle.close ()

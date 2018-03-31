@@ -20,4 +20,5 @@ val blue : color
 
 val set_color: color -> unit
 
+val open_graph: string -> unit
 val close: unit -> unit
