@@ -39,7 +39,11 @@ prog:
 ;
 
 stmt:
-  FORWARD e = expr NEWLINE
+  s = simple_stmt NEWLINE*
+    { s }
+
+simple_stmt:
+| FORWARD e = expr
     { Sforward e }
 
 expr:

@@ -5,3 +5,5 @@
 
 // then complete this file as tests progress *)
 forward 100 + 3 * -0
+// newlines
+(* no effect *)

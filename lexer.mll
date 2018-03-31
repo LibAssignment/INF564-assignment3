@@ -44,4 +44,5 @@ rule token = parse
   | _ { assert false (* TO COMPLETE *) }
 and comment = parse
   | "*)"      { token lexbuf }
+  | '\n'      { new_line lexbuf; comment lexbuf }
   | _         { comment lexbuf }
