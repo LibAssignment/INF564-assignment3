@@ -30,37 +30,37 @@ The code provided compiles but is incomplete. The executable is called `mini-tur
 ### Lexical conventions
 Spaces, tabs, and carriage returns are blanks. Comments are of two different forms: starting with `//` and extending to the end of the line, or surrounded by `(*` and `*)` (not nested). The following identifiers are keywords:
 ```logo
-if else defend penup pendown forward turnleft
+if else def repeat penup pendown forward turnleft
 turnright color black red green blue
 ```
 An identifier `ident` contains letters, numbers, and `_` characters and begins with a letter. A `integer` constant is a sequence of digits.
 
 ### Syntax
 Names in italics, such as `expr`, denote nonterminals. The notation `stmt*` denotes a zero, one or more times repetition of the non-terminal `stmt`. The notation `expr*,` denotes a repetition of the non-terminal `expr`, the occurrences being separated by the lexeme `,` (a comma).
-```
-file ::= def* stmt*
- def ::= def ident ( ident*, ) stmt
+<pre>
+file ::= <i>def*</i> <i>stmt*</i>
+ def ::= def ident ( <i>ident*,</i> ) <i>stmt</i>
 stmt ::= penup
        | pendown
-       | forward expr
-       | turnleft expr
-       | turnright expr
-       | color color
-       | ident ( expr*, )
-       | if expr stmt
-       | if expr stmt else stmt
-       | repeat expr stmt
+       | forward <i>expr</i>
+       | turnleft <i>expr</i>
+       | turnright <i>expr</i>
+       | color <i>color</i>
+       | ident ( <i>expr*,</i> )
+       | if <i>expr</i> <i>stmt</i>
+       | if <i>expr</i> <i>stmt</i> else <i>stmt</i>
+       | repeat <i>expr</i> <i>stmt</i>
        | { stmt* }
 expr ::= integer
        | ident
-       | expr + expr
-       | expr - expr
-       | expr * expr
-       | expr / expr
-       | - expr
-       | ( expr )
+       | <i>expr</i> + <i>expr</i>
+       | <i>expr</i> - <i>expr</i>
+       | <i>expr</i> * <i>expr</i>
+       | <i>expr</i> / <i>expr</i>
+       | - <i>expr</i>
+       | ( <i>expr</i> )
 color ::= black | white | red | green | blue
-```
+</pre>
 The priorities of binary arithmetic operations are usual and unary negation has an even higher priority.
 
 ## Work to do
