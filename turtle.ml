@@ -36,22 +36,20 @@ module Graphics = struct
     flush_path ();
     line_width := d
 
-  let svg_of_usquare fn i =
+  let svg_of_usquare oc i =
     let size = !view_size in
     let view = Box2.v P2.o !view_size in
     let dpi30 = let s = 30. /. 0.0254 in Size2.v s s in
     try
-      let oc = open_out fn in
       let r = Vgr.create (Vgr_cairo.stored_target (`Png dpi30)) (`Channel oc) in
       try
         ignore (Vgr.render r (`Image (size, view, i)));
         ignore (Vgr.render r `End);
-        close_out oc
       with e -> close_out oc; raise e
     with Sys_error e -> prerr_endline e
 
-  let close_graph fn =
-    flush_path (); svg_of_usquare fn !img
+  let close_graph oc =
+    flush_path (); svg_of_usquare oc !img
 end
 
 type color = Gg.color
@@ -80,7 +78,6 @@ let turn_left d = angle := A.add !angle (A.of_degrees (float d))
 let turn_right d = turn_left (- d)
 
 open Graphics
-let filename = ref None
 let tx = ref 400.
 let ty = ref 400.
 let () = open_graph 800. 800.; set_line_width 2.;
@@ -92,8 +89,4 @@ let forward d =
   if !draw then lineto !tx !ty
            else moveto !tx !ty
 
-let open_graph fn = filename := Some fn
-let close () =
-  match !filename with
-  | Some fn -> Graphics.close_graph fn
-  | _ -> ()
+let write = Graphics.close_graph

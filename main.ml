@@ -6,7 +6,6 @@ open Lexing
 
 (* Compilation option, to stop at the end of the parser *)
 let parse_only = ref false
-let output_filename = ref "out.png"
 
 (* Names of source and target files *)
 let ifile = ref ""
@@ -18,8 +17,8 @@ let set_file f s = f := s
 let options =
   ["--parse-only", Arg.Set parse_only,
    "  To do only the parsing phase";
-   "-o", Arg.String (fun s -> output_filename:=s),
-   "  Output filename (default " ^ !output_filename ^ ")"]
+   "-o", Arg.String (fun s -> ofile:=s),
+   "  Output filename"]
 
 let usage = "usage: mini-turtle [option] file.logo"
 
@@ -43,11 +42,14 @@ let () =
     exit 1
   end;
 
+  if !ofile="" then begin ofile := (Filename.chop_suffix !ifile ".logo") ^ ".png" end;
+
   (* Opening the source file for reading *)
-  let f = open_in !ifile in
+  let fi = open_in !ifile in
+  let fo = open_out !ofile in
 
   (* Creating a lexical analysis buffer *)
-  let buf = Lexing.from_channel f in
+  let buf = Lexing.from_channel fi in
 
   try
     (* Parsing: The Parser.prog function transforms the lexical buffer into a
@@ -56,12 +58,13 @@ let () =
        The Lexer.token function is used by Parser.prog to get
        the next token. *)
     let p = Parser.prog Lexer.token buf in
-    close_in f;
+    close_in fi;
 
     (* We stop here if we only want to do parsing *)
     if !parse_only then exit 0;
 
-    Interp.prog !output_filename p
+    Interp.prog fo p;
+    close_out fo;
   with
     | Lexer.Lexing_error c ->
         (* Lexical error. We recover its absolute position and

@@ -30,7 +30,7 @@ $(BIN): $(CMX)
 	menhir --infer -v $<
 
 clean:
-	rm -f *.cm[ix] *.o *~ $(BIN) $(GENERATED) parser.automaton
+	rm -f *.cm[ix] *.o *~ $(BIN) $(GENERATED) parser.automaton *.png
 
 parser.ml: ast.cmi
 

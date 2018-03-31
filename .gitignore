@@ -10,5 +10,5 @@ parser.ml
 parser.mli
 lexer.ml
 
-out.*
+test.png
 .DS_Store
